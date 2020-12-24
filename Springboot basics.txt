@@ -1,0 +1,71 @@
+tostring data url ;
+
+1. student entity class
+
+2. controller
+   
+    @RestController
+public class StudentController {
+	@Autowired
+	StudentRepo  repo;
+	@GetMapping("students")
+	public String getStudent(){
+		return repo.findAll().toString();
+		
+	}
+
+}
+
+3. Repository
+
+public interface StudentRepo extends CrudRepository<Student, Integer> {
+
+}/////////////////////////////
+
+if you want json hence use Jparepository
+
+
+2.public interface StudentRepo extends JpaRepository<Student, Integer> {
+
+}
+
+
+
+3.
+
+@RestController
+public class StudentController {
+	@Autowired
+	StudentRepo  repo;
+	@GetMapping("students")
+	public List<Student> getStudent(){
+		return repo.findAll();
+		
+	}
+
+}
+///////////////
+
+get an id valuess
+
+
+@GetMapping("students/101")
+	public Optional<Student> getDatails() {
+		return repo.findById(101);
+		
+	}
+
+//////////////////post the value with help of key and value hence use this////////////////
+
+	@PostMapping("students")
+	public Optional<Student> postData(Student student) {
+		repo.save(student);
+		return repo.findById(student.getSid());
+	}
+//////////////////////put request ///////////////////////
+
+@PutMapping("students")
+	public Optional<Student> updateData(@RequestBody Student student) {
+		repo.save(student);
+		return repo.findById(student.getSid());
+	}
